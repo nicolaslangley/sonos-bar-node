@@ -1,6 +1,7 @@
 {
-  "name": "hierarchy.sonoscontrollerapp",
+  "name": "sonoscontroller",
   "version": "0.0.1",
+  "author": "Nicolas Langley",
   "description": "Sonos Controller in Node.js",
   "main": "index.html",
   "window": {
@@ -9,6 +10,13 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "Nicolas Langley",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/nicolaslangley/sonoscontroller.git"
+  },
+  "dependencies": {
+    "sonos": "0.6.1",
+    "airsonos": "0.0.18"
+  },
   "license": "MIT"
 }

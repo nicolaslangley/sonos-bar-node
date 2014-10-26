@@ -6,6 +6,10 @@ var sonos = require('sonos');
 // Un-comment for debugging
 //gui.Window.get().showDevTools();
 
+
+var win = gui.Window.get();
+//win.setShowInTaskbar(false);
+
 // Create a tray icon
 var tray = new gui.Tray({ icon: 'img/sonos-icon-round@2x.png' });
 
