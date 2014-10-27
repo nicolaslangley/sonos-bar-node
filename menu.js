@@ -8,6 +8,7 @@ var sonos = require('sonos');
 
 
 var win = gui.Window.get();
+// This function is only available in Node-Webkit > 0.9.0 - we are using 0.8.6
 //win.setShowInTaskbar(false);
 
 // Create a tray icon
@@ -25,11 +26,10 @@ var playMenuItem = new gui.MenuItem({
     console.log("Play");
     sonosController.play("", function (err, playing) {
       if (err) {
-        console.log(err);
+        console.error(err);
       }
       console.log(playing);
     });
-    console.log("Finished playing");
   } 
 });
 var pauseMenuItem = new gui.MenuItem({
@@ -39,7 +39,7 @@ var pauseMenuItem = new gui.MenuItem({
     console.log("Pause");
     sonosController.pause(function (err, paused) {
       if (err) {
-        console.log(err);
+        console.error(err);
       }
       console.log(paused);
     });
@@ -52,7 +52,7 @@ var nextMenuItem = new gui.MenuItem({
     console.log("Next");
     sonosController.next(function (err, movedToNext) {
       if (err) {
-        console.log(err);
+        console.error(err);
       }
       console.log(movedToNext);
     });
@@ -77,6 +77,9 @@ var enableAirplayMenuItem = new gui.MenuItem({
   click: function () {
     console.log("Enable AirSonos");
     var airSonos = require('airsonos');
+    if (!airSonos) {
+      console.error("Error launching AirSonos");    
+    }
   }
 });
 var quitMenuItem = new gui.MenuItem({ 
