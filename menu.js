@@ -20,6 +20,12 @@ console.log(sonosController);
 
 // State of AirSonos
 var airSonosEnabled = false;
+var airSonos = require('airsonos');
+if (!airSonos) {
+  console.error("Error launching AirSonos");    
+} else {
+  airSonosEnabled = true;  
+}
 
 
 // Create menuitems
@@ -82,7 +88,8 @@ var prevMenuItem = new gui.MenuItem({
       updateNowPlaying();
     });
   } 
-}); 
+});
+// NOTE: This may be removed if not required
 var enableAirplayMenuItem = new gui.MenuItem({ 
   type: 'normal', 
   label: 'Enable AirSonos',
@@ -112,7 +119,8 @@ menu.append(playMenuItem);
 menu.append(pauseMenuItem);
 menu.append(nextMenuItem);
 menu.append(prevMenuItem);
-menu.append(enableAirplayMenuItem);
+// Temporarilily disabled - have to decide if it is necessary
+//menu.append(enableAirplayMenuItem);
 menu.append(quitMenuItem);
 tray.menu = menu;
 
@@ -124,10 +132,11 @@ function updateNowPlaying () {
       nowPlayingMenuItem.label = "";
       console.error("Failed to get current track");
     }
+    // TODO: this is not a robust check..
     if (track['title'] != "listen") {
       nowPlayingMenuItem.label = track['title'] + " - " + track['artist'];
-      console.log(track['title']);
-    } else if (airSonosEnabled) {
+      console.log("Currently Playing: " + track['title']);
+    } else if (airSonosEnabled && track['position'] > 0) {
       nowPlayingMenuItem.label = "AirSonos Enabled";
     } else {
       nowPlayingMenuItem.label = "Nothing Playing";  
