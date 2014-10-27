@@ -18,7 +18,15 @@ var tray = new gui.Tray({ icon: 'img/sonos-icon-round@2x.png' });
 var sonosController = new sonos.Sonos('192.168.0.19');
 console.log(sonosController);
 
+// State of AirSonos
+var airSonosEnabled = false;
+
+
 // Create menuitems
+var nowPlayingMenuItem = new gui.MenuItem({
+  type: 'normal',
+  label: 'Now Playing'
+});
 var playMenuItem = new gui.MenuItem({
   type: 'normal',
   label: 'Play',
@@ -29,6 +37,7 @@ var playMenuItem = new gui.MenuItem({
         console.error(err);
       }
       console.log(playing);
+      updateNowPlaying();
     });
   } 
 });
@@ -42,6 +51,7 @@ var pauseMenuItem = new gui.MenuItem({
         console.error(err);
       }
       console.log(paused);
+      updateNowPlaying();
     });
   } 
 });
@@ -55,6 +65,7 @@ var nextMenuItem = new gui.MenuItem({
         console.error(err);
       }
       console.log(movedToNext);
+      updateNowPlaying();
     });
   } 
 });
@@ -62,12 +73,13 @@ var prevMenuItem = new gui.MenuItem({
   type: 'normal',
   label: 'Previous',
   click: function () {
-    console.log("Previou");
+    console.log("Previous");
     sonosController.next(function (err, movedToPrevious) {
       if (err) {
         console.log(err);
       }
       console.log(movedToPrevious);
+      updateNowPlaying();
     });
   } 
 }); 
@@ -79,6 +91,8 @@ var enableAirplayMenuItem = new gui.MenuItem({
     var airSonos = require('airsonos');
     if (!airSonos) {
       console.error("Error launching AirSonos");    
+    } else {
+      airSonosEnabled = true;  
     }
   }
 });
@@ -93,6 +107,7 @@ var quitMenuItem = new gui.MenuItem({
 
 // Create menu and append menuitems
 var menu = new gui.Menu();
+menu.append(nowPlayingMenuItem);
 menu.append(playMenuItem);
 menu.append(pauseMenuItem);
 menu.append(nextMenuItem);
@@ -100,3 +115,26 @@ menu.append(prevMenuItem);
 menu.append(enableAirplayMenuItem);
 menu.append(quitMenuItem);
 tray.menu = menu;
+
+// Check currently playing track and update nowPlayingMenuItem
+// TODO: there needs to be a better way to get the current track - i.e. a listener
+function updateNowPlaying () {
+  sonosController.currentTrack(function (err, track) {
+    if (err) {
+      nowPlayingMenuItem.label = "";
+      console.error("Failed to get current track");
+    }
+    if (track['title'] != "listen") {
+      nowPlayingMenuItem.label = track['title'] + " - " + track['artist'];
+      console.log(track['title']);
+    } else if (airSonosEnabled) {
+      nowPlayingMenuItem.label = "AirSonos Enabled";
+    } else {
+      nowPlayingMenuItem.label = "Nothing Playing";  
+    }
+  });
+}
+
+// Update the now playing view on an interval of every 3 seconds
+setInterval(updateNowPlaying, 3000);
+
