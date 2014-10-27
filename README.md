@@ -1,8 +1,9 @@
-####SonosController
+####SonosBar
 ================
 
-Sonos Controller using Node.js using [Node-Webkit](https://github.com/rogerwang/node-webkit).
-Currently requires Node-Webkit 0.8.6
+Sonos Menubar Controller for Mac OSX.
+
+Built using Node.js using [Node-Webkit 0.8.6](https://github.com/rogerwang/node-webkit).
 
 Note that the following packages had to be recompiled using `nw-gyp`:
 - `lame 1.0.3`
