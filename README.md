@@ -1,4 +1,4 @@
-####SonosBar
+SonosBar
 ================
 
 Sonos Menubar Controller for Mac OSX.
