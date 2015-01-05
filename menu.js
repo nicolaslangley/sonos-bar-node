@@ -1,11 +1,13 @@
 "use strict";
 // Load native UI library
 var gui = require('nw.gui');
+// Load Sonos library
 var sonos = require('sonos');
+// Load child_process exec command
+var exec = require('child_process').exec;
 
 // Un-comment for debugging
 //gui.Window.get().showDevTools();
-
 
 var win = gui.Window.get();
 // This function is only available in Node-Webkit > 0.9.0 - we are using 0.8.6
@@ -79,6 +81,15 @@ var prevMenuItem = new gui.MenuItem({
     });
   } 
 });
+var openSonosMenuItem = new gui.MenuItem({ 
+  type: 'normal', 
+  label: 'Open Sonos',
+  click: function () {
+    console.log("Open Sonos");
+    // TODO: need to check for errors - what if the Sonos app doesn't exist
+    exec('open /Applications/Sonos.app');
+  }
+});
 var quitMenuItem = new gui.MenuItem({ 
   type: 'normal', 
   label: 'Quit',
@@ -95,8 +106,7 @@ menu.append(playMenuItem);
 menu.append(pauseMenuItem);
 menu.append(nextMenuItem);
 menu.append(prevMenuItem);
-// Temporarilily disabled - have to decide if it is necessary
-//menu.append(enableAirplayMenuItem);
+menu.append(openSonosMenuItem);
 menu.append(quitMenuItem);
 tray.menu = menu;
 
