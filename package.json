@@ -15,8 +15,7 @@
     "url": "https://github.com/nicolaslangley/sonoscontroller.git"
   },
   "dependencies": {
-    "sonos": "0.6.1",
-    "airsonos": "0.0.18"
+    "sonos": "0.6.1"
   },
   "license": "MIT"
 }

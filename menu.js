@@ -9,7 +9,7 @@ var sonos = require('sonos');
 
 var win = gui.Window.get();
 // This function is only available in Node-Webkit > 0.9.0 - we are using 0.8.6
-//win.setShowInTaskbar(false);
+win.setShowInTaskbar(false);
 
 // Create a tray icon
 var tray = new gui.Tray({ icon: 'img/sonos-icon-round@2x.png' });
@@ -17,16 +17,6 @@ var tray = new gui.Tray({ icon: 'img/sonos-icon-round@2x.png' });
 // Connect to Sonos - TODO: change this to search for available devices
 var sonosController = new sonos.Sonos('192.168.0.19');
 console.log(sonosController);
-
-// State of AirSonos
-var airSonosEnabled = false;
-var airSonos = require('airsonos');
-if (!airSonos) {
-  console.error("Error launching AirSonos");    
-} else {
-  airSonosEnabled = true;  
-}
-
 
 // Create menuitems
 var nowPlayingMenuItem = new gui.MenuItem({
@@ -88,20 +78,6 @@ var prevMenuItem = new gui.MenuItem({
       updateNowPlaying();
     });
   } 
-});
-// NOTE: This may be removed if not required
-var enableAirplayMenuItem = new gui.MenuItem({ 
-  type: 'normal', 
-  label: 'Enable AirSonos',
-  click: function () {
-    console.log("Enable AirSonos");
-    var airSonos = require('airsonos');
-    if (!airSonos) {
-      console.error("Error launching AirSonos");    
-    } else {
-      airSonosEnabled = true;  
-    }
-  }
 });
 var quitMenuItem = new gui.MenuItem({ 
   type: 'normal', 
