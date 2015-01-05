@@ -122,8 +122,6 @@ function updateNowPlaying () {
     if (track['title'] != "listen") {
       nowPlayingMenuItem.label = track['title'] + " - " + track['artist'];
       console.log("Currently Playing: " + track['title']);
-    } else if (airSonosEnabled && track['position'] > 0) {
-      nowPlayingMenuItem.label = "AirSonos Enabled";
     } else {
       nowPlayingMenuItem.label = "Nothing Playing";  
     }
